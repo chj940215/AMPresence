@@ -36,7 +36,7 @@ cmake --build .
 ```
 Remember to move the new AppleMusicPresence to main folder.
 
-To Compile Swift program, you can simply run:
+To Compile Swift program, you can go ack to main folder and simply run:
 ```
 swiftc DataGrabbing.swift -o NowPlayingServer
 ```
