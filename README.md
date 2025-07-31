@@ -8,6 +8,14 @@ This method uses **Discord Social SDK** and **Swift** to achieve, where the form
 
 The data communication is done by local network connection. The Swift program acts as a Server, and the C++ program acts as a Client.
 
+### Features
+Actually there's no great features. This only supports:
+* Display "Playing Apple Music"
+* Shows Title, Album, Artist
+* Run on local
+
+![Preview](Preview.png "Preview")
+
 ### How to Run?
 You can either:
 1. Directly execute run.sh in Terminal, which runs AppleMusicPresence and NowPlayingServer. Control + C to terminate the process.
@@ -22,8 +30,8 @@ Below operations can be done in Terminal.
 
 To Compile C++ program, firstly make sure you are inside the main folder, and excute commands below:
 ```
-mkdir build && cd build // Create a folder called build and enter it
-cmake .. // Compilation
+mkdir build && cd build
+cmake ..
 cmake --build .
 ```
 Remember to move the new AppleMusicPresence to main folder.
@@ -33,12 +41,6 @@ To Compile Swift program, you can simply run:
 swiftc DataGrabbing.swift -o NowPlayingServer
 ```
 Now you have two executables. You can either run those by your own script or run.sh.
-
-### Features
-Actually there's no great features. This only supports:
-* Display "Playing Apple Music"
-* Shows Title, Album, Artist
-* Run on local
 
 ### Known Issues
 * Permissions: I use default for this program, which will be able to access friends info, rich presence, etc.. However, the program only access rich presence in order to update your activity status. No other modifications are made.
