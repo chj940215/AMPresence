@@ -9,6 +9,8 @@
 #include <csignal>
 #include <mutex>
 #include <chrono>
+#include <iomanip>
+#include <sstream>
 
 // For socket communication (Linux / MacOS)
 #include <sys/socket.h>
@@ -138,6 +140,21 @@ void listen_for_music_data() {
     }
 }
 
+std::string url_encode(const std::string& value) {
+    std::ostringstream escaped;
+    escaped.fill('0');
+    escaped << std::hex;
+
+    for (char c : value) {
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+            escaped << c;
+        } else {
+            escaped << '%' << std::setw(2) << int((unsigned char)c);
+        }
+    }
+    return escaped.str();
+}
+
 int main() {
     std::signal(SIGINT, signalHandler);
     
@@ -193,7 +210,6 @@ int main() {
     
     while (running) {
         discordpp::RunCallbacks();
-
         MusicInfo info_to_send;
         {
             std::lock_guard<std::mutex> lock(music_mutex);
@@ -213,12 +229,17 @@ int main() {
                     activity.SetType(discordpp::ActivityTypes::Playing);
                     activity.SetDetails(info_to_send.track);
                     activity.SetState("by " + info_to_send.artist + " - " + info_to_send.album);
+                    discordpp::ActivityButton button;
+                    std::string search_term = info_to_send.track + " " + info_to_send.artist;
+                    std::string search_url = "https://music.apple.com/us/search?term=" + url_encode(search_term);
+                    button.SetLabel("Search on AM");
+                    button.SetUrl(search_url);
+                    activity.AddButton(button);
                 }
             } else {
                 std::cout << "🎵 Music paused. Setting status to Resting..." << std::endl;
                 activity.SetState("Resting...");
             }
-
             client->UpdateRichPresence(activity, [](discordpp::ClientResult result) {
                 if(result.Successful()) {
                     std::cout << u8"\u2705 Rich Presence updated successfully!\n";
