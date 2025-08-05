@@ -12,7 +12,7 @@ CPP_CLIENT_PATH="./AppleMusicPresence"
 # Check whether the Swift server executable exists
 if [ ! -f "$SWIFT_SERVER_PATH" ]; then
     echo "❌ Error: Swift server executable not found at '$SWIFT_SERVER_PATH'"
-    echo "Please compile NowPlayingServer.swift first using: swiftc NowPlayingServer.swift -o NowPlayingServer"
+    echo "Please compile NowPlayingServer.swift first using: swiftc DataGrabbing.swift -o NowPlayingServer"
     exit 1
 fi
 
